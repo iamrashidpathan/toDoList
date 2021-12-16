@@ -1,24 +1,21 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const date = require(__dirname+"/date.js")
 
 const app = express();
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
 app.set('view engine', 'ejs');
 
-iteams = ["Buy Food", "Cook Food", "Eat Food"];
-workItems= [];
+const iteams = ["Buy Food", "Cook Food", "Eat Food"];
+const workItems= [];
 
 app.get("/", function(request, response){
     //response.send("Hello");
     //console.log(today.toLocaleDateString("en-US")); // 9/17/2016
     //console.log(today.toLocaleDateString("en-US", options)); // Saturday, September 17, 2016
 
-    let today = new Date();
-
-    let options = { weekday: 'long', day: 'numeric', month: 'long'};
-    
-    let day = today.toLocaleDateString("en-US", options);
+    const day = date.getDate();
 
     response.render('list', {listTitle : day, newIteams : iteams});
 
@@ -26,7 +23,7 @@ app.get("/", function(request, response){
 
 app.post("/", function(request, response){
 
-    let iteam = request.body.newIteam;
+    const iteam = request.body.newIteam;
     console.log(request.body);
 
     if(request.body.list === "Work"){
